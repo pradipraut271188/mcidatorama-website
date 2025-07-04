@@ -1,0 +1,9 @@
+<svg width="200" height="50" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="50" fill="#003366" rx="8" ry="8"></rect>
+  <text x="20" y="35" font-family="Arial, sans-serif" font-size="28" fill="#ffffff" font-weight="bold">
+    MCI
+  </text>
+  <text x="70" y="35" font-family="Arial, sans-serif" font-size="24" fill="#00ccff" font-weight="normal">
+    Datorama
+  </text>
+</svg>
