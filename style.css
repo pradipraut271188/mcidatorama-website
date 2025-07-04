@@ -1,0 +1,49 @@
+/* Reset & Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  background-color: #f9f9f9;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Header */
+header {
+  background-color: #003b5c;
+  color: #fff;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+}
+
+header h1 a {
+  color: #fff;
+  font-size: 1.8rem;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5rem;
+}
+
+nav ul li a {
+  color: white;
+  font-weight: 500;
+  tr
