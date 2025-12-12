@@ -1,64 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MCI Datorama Consulting</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MCI Migration — Modern Marketing Intelligence</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <meta name="description" content="Migrate from Salesforce Datorama (MCI) to modern, scalable analytics stacks — Power BI, Adverity, Redshift, Snowflake, Tableau. Free migration audit.">
+
+  <style>
+    :root{
+      --bg:#f6f9ff;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#6b7280;
+      --accent-1:#0b6cff;
+      --accent-2:#0044cc;
+      --glass: rgba(255,255,255,0.7);
+      --radius:16px;
+      --shadow-lg: 0 18px 42px rgba(6,30,80,0.12);
+      --shadow-md: 0 10px 24px rgba(6,30,80,0.08);
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+
+    /* Reset & base */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+    .container{max-width:1200px;margin:0 auto;padding:32px}
+
+    /* Header */
+    header{position:sticky;top:12px;z-index:60;padding:12px 0}
+    .nav{background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.75));backdrop-filter:blur(8px);border-radius:14px;padding:10px 18px;box-shadow:0 10px 30px rgba(10,20,40,0.05);display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));box-shadow:0 8px 30px rgba(11,108,255,0.18)}
+    nav ul{display:flex;gap:18px;align-items:center;margin:0;padding:0;list-style:none}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600}
+    .btn-cta{background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#fff;padding:10px 16px;border-radius:12px;text-decoration:none;font-weight:700;box-shadow:0 10px 30px rgba(11,108,255,0.18)}
+
+    /* Hero */
+    .hero-wrap{position:relative;margin-top:28px}
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:36px;align-items:center}
+    .hero-card{background:var(--card);border-radius:20px;padding:44px;box-shadow:var(--shadow-lg);border:1px solid rgba(10,30,70,0.03)}
+    .eyebrow{color:var(--accent-1);font-weight:700;font-size:13px}
+    .hero h1{font-size:44px;line-height:1.05;margin:12px 0 16px}
+    .lead{color:var(--muted);font-size:16px;margin-bottom:18px}
+    .hero-actions{display:flex;gap:14px;align-items:center}
+    .statistics{display:flex;gap:12px;margin-top:20px}
+    .stat{background:linear-gradient(180deg, rgba(246,249,255,0.9), rgba(255,255,255,0.9));padding:12px 16px;border-radius:12px;font-weight:700;color:var(--accent-2)}
+
+    /* Right column */
+    .card{background:var(--card);padding:22px;border-radius:16px;box-shadow:var(--shadow-md);border:1px solid rgba(10,30,70,0.04)}
+    .card h3{margin:0 0 8px}
+    .small{color:var(--muted);font-size:14px}
+    input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #e6e9ef;margin-top:10px}
+    button{background:var(--accent-1);color:#fff;border:0;padding:12px;border-radius:10px;font-weight:700;cursor:pointer}
+
+    /* Sections */
+    section{margin-top:42px}
+    h2{font-size:28px;margin:0 0 12px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .card-plain{background:transparent;padding:0;border-radius:12px}
+
+    /* Tools list */
+    .tools{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+    .tool{padding:8px 12px;border-radius:999px;background:#f3f6ff;color:var(--accent-2);font-weight:700}
+
+    /* Footer */
+    footer{margin-top:60px;padding:36px;background:transparent}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:12px}
+
+    /* Gradient blobs */
+    .blob{position:absolute;border-radius:50%;filter:blur(120px);opacity:0.45;z-index:0;pointer-events:none;transform:translate3d(0,0,0)}
+    .blob-1{width:420px;height:420px;background:radial-gradient(circle,#6aa8ff,#0b6cff);top:-120px;left:-80px}
+    .blob-2{width:360px;height:360px;background:radial-gradient(circle,#00e0ff,#0077ff);bottom:60px;right:-120px}
+    .blob-3{width:280px;height:280px;background:radial-gradient(circle,#ffd46a,#ff9d00);bottom:-100px;left:18%}
+
+    /* Responsive */
+    @media (max-width:1000px){
+      .hero{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:640px){
+      .nav{padding:12px}
+      nav ul{display:none}
+      .hero h1{font-size:28px}
+      .grid-3{grid-template-columns:1fr}
+    }
+
+    /* subtle animations */
+    .fade-up{transform:translateY(10px);opacity:0;transition:all 650ms ease}
+    .fade-up.in{transform:none;opacity:1}
+
+  </style>
 </head>
 <body>
+
+  <!-- Decorative blobs -->
+  <div class="blob blob-1" aria-hidden></div>
+  <div class="blob blob-2" aria-hidden></div>
+  <div class="blob blob-3" aria-hidden></div>
+
   <header>
-    <div class="container">
-      <h1><a href="index.html">mcidatorama.com</a></h1>
-      <nav>
+    <div class="container nav" role="banner">
+      <div class="brand">
+        <div class="logo">MI</div>
+        <div>
+          <div style="font-weight:800">MCI Migration</div>
+          <div class="small">Modern Marketing Intelligence</div>
+        </div>
+      </div>
+
+      <nav aria-label="Main navigation">
         <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="certification.html">Certification Help</a></li>
-          <li><a href="migration.html">Migration</a></li>
+          <li><a href="#why">Why Migrate</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#tools">Tools</a></li>
         </ul>
       </nav>
+
+      <a class="btn-cta" href="#contact">Get a Free Audit</a>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="container">
-      <h2>Your Partner in Digital Marketing Intelligence</h2>
-      <p>We provide expert consulting, implementation, certification support, and migration services for leading digital marketing analytics tools.</p>
-    </div>
-  </section>
+  <main class="container" role="main">
 
-  <section class="overview">
-    <div class="container">
-      <h3>Our Services</h3>
-      <ul class="service-list">
-        <li>Implementation & Integration</li>
-        <li>Platform Customization & Reporting</li>
-        <li>Dashboard Development</li>
-        <li>Training & Certification Guidance</li>
-        <li>Platform Migrations (e.g., from Datorama)</li>
-      </ul>
-    </div>
-  </section>
+    <!-- HERO -->
+    <section class="hero-wrap">
+      <div class="hero">
+        <div class="hero-card fade-up" id="heroCard">
+          <div class="eyebrow">Datorama (MCI) → Modern Data Stack</div>
+          <h1>Modernize Your Marketing Data Stack with Next‑Gen Marketing Intelligence</h1>
+          <p class="lead">Migrate from Salesforce Datorama (MCI) to Adverity, Funnel, Rivery, Domo, SQL warehouses, Power BI, or Supermetrics with enterprise‑grade reliability and scalability.</p>
 
-  <section class="tools">
-    <div class="container">
-      <h3>Tools We Specialize In</h3>
-      <ul class="tool-links">
-        <li><a href="datorama.html">Marketing Cloud Intelligence (Datorama)</a></li>
-        <li><a href="adverity.html">Adverity</a></li>
-        <li><a href="revery.html">Revery</a></li>
-        <li><a href="tableau.html">Tableau</a></li>
-        <li><a href="lookerstudio.html">Looker Studio</a></li>
-        <li><a href="powerbi.html">Power BI</a></li>
-      </ul>
-    </div>
-  </section>
+          <div class="hero-actions">
+            <a class="btn-cta" href="#contact">Get Free Audit</a>
+            <a href="#services" style="color:var(--muted);font-weight:700">Explore Services →</a>
+          </div>
+
+          <div class="statistics" aria-hidden>
+            <div class="stat">Free migration audit</div>
+            <div class="stat">30‑day migration option</div>
+            <div class="stat">Enterprise support</div>
+          </div>
+        </div>
+
+        <aside class="card fade-up" style="align-self:start" id="quickForm">
+          <h3>Quick Inquiry</h3>
+          <p class="small">Tell us your goals — we typically respond within one business day.</p>
+          <input placeholder="Your name" aria-label="Your name">
+          <input placeholder="Email" aria-label="Email" style="margin-top:10px">
+          <textarea rows="4" placeholder="Short description" style="margin-top:10px"></textarea>
+          <button style="width:100%;margin-top:12px">Send Message</button>
+          <div class="small" style="margin-top:10px">Or call <strong>+1 (555) 123‑4567</strong></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- WHY MIGRATE -->
+    <section id="why">
+      <h2>Why Companies Migrate Away from Datorama (MCI)</h2>
+      <p class="small">Many businesses move off Datorama to reduce unpredictable costs, gain control of their data models, and unlock faster analytics at scale.</p>
+
+      <div class="grid-3" style="margin-top:18px">
+        <div class="card fade-up">
+          <h3>Rising Costs</h3>
+          <p class="small">Costs often scale by rows processed or events ingested — leading to unpredictable bills as volume grows.</p>
+        </div>
+
+        <div class="card fade-up">
+          <h3>Platform Limitations</h3>
+          <p class="small">Some teams face slow visualizations, limited control over data models, and constrained transformation flexibility.</p>
+        </div>
+
+        <div class="card fade-up">
+          <h3>Open Architecture & Scale</h3>
+          <p class="small">Cloud warehouses and SQL-based stacks (Redshift, BigQuery, Snowflake) provide predictable costs and scale for high-volume analytics.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <h2>MCI → Modern Stack Migration Services</h2>
+      <p class="small">End-to-end migration services tailored to enterprise needs.</p>
+
+      <div class="grid-3" style="margin-top:18px">
+        <div class="card">
+          <h3>MCI → Power BI</h3>
+          <p class="small">Data model design, ETL, and enterprise-grade Power BI dashboards with automated refresh.</p>
+        </div>
+
+        <div class="card">
+          <h3>MCI → Adverity</h3>
+          <p class="small">Rebuild connectors, harmonization logic, and destinations for modern data flows.</p>
+        </div>
+
+        <div class="card">
+          <h3>MCI → Funnel / Rivery / Domo</h3>
+          <p class="small">Structured ETL migration with validation, monitoring, and pipeline automation.</p>
+        </div>
+
+        <div class="card">
+          <h3>SQL Warehouse Setup</h3>
+          <p class="small">Redshift, BigQuery, Snowflake or Azure data warehouse provisioning and architecture.</p>
+        </div>
+
+        <div class="card">
+          <h3>Dashboard Re‑build</h3>
+          <p class="small">Tableau, Power BI or Looker dashboards rebuilt and optimized for performance.</p>
+        </div>
+
+        <div class="card">
+          <h3>Free Migration Audit</h3>
+          <p class="small">We audit your Datorama implementation and deliver a migration plan with cost estimates.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section id="process">
+      <h2>How Migration Works</h2>
+      <p class="small">A predictable, low-risk migration process — from discovery to go-live.</p>
+
+      <div class="grid-2" style="margin-top:18px">
+        <div class="card">
+          <h3>1. Audit</h3>
+          <p class="small">Inventory of data streams, harmonization rules, dashboards and cost drivers.</p>
+        </div>
+
+        <div class="card">
+          <h3>2. Mapping</h3>
+          <p class="small">Map entities, metrics, dimensions and transformation logic to the target stack.</p>
+        </div>
+
+        <div class="card">
+          <h3>3. ETL Build</h3>
+          <p class="small">Implement robust ingestion & transformation pipelines with testing & monitoring.</p>
+        </div>
+
+        <div class="card">
+          <h3>4. Dashboard Rebuild</h3>
+          <p class="small">Recreate dashboards and visualizations with performance-first designs.</p>
+        </div>
+
+        <div class="card">
+          <h3>5. QA</h3>
+          <p class="small">Reconcile KPIs and perform acceptance testing against Datorama baselines.</p>
+        </div>
+
+        <div class="card">
+          <h3>6. Go‑Live (30 Days)</h3>
+          <p class="small">Handover, runbooks, and optional managed support.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOLS & EXPERTISE -->
+    <section id="tools">
+      <h2>Tools & Expertise</h2>
+      <p class="small">We work with industry-leading platforms to ensure a smooth migration.</p>
+      <div class="tools">
+        <span class="tool">Datorama (MCI)</span>
+        <span class="tool">Adverity</span>
+        <span class="tool">Funnel</span>
+        <span class="tool">Rivery</span>
+        <span class="tool">Domo</span>
+        <span class="tool">Power BI</span>
+        <span class="tool">Tableau</span>
+        <span class="tool">Redshift</span>
+        <span class="tool">BigQuery</span>
+        <span class="tool">Snowflake</span>
+      </div>
+    </section>
+
+    <!-- SUPPORT -->
+    <section id="support">
+      <h2>Instant & Emergency Support</h2>
+      <p class="small">24×7 BI support and emergency Power BI & ETL troubleshooting services to keep your reporting live.</p>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <h2>Get a Free Migration Audit</h2>
+      <div class="card" style="margin-top:12px">
+        <form id="contactForm" onsubmit="event.preventDefault();handleSubmit()">
+          <div class="grid-2">
+            <input name="name" placeholder="Name" required />
+            <input name="company" placeholder="Company" />
+            <input name="email" placeholder="Email" type="email" required />
+            <input name="phone" placeholder="Phone (optional)" />
+          </div>
+          <textarea name="message" placeholder="Tell us about your migration" rows="5" style="margin-top:12px"></textarea>
+          <button type="submit" style="width:100%;margin-top:12px">Request Audit</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
 
   <footer>
-    <div class="container">
-      <p>&copy; 2025 mcidatorama.com. All rights reserved.</p>
+    <div class="container footer-inner">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="logo">MI</div>
+        <div>
+          <div style="font-weight:800">MCI Migration</div>
+          <div class="small">Marketing Intelligence Specialists</div>
+        </div>
+      </div>
+      <div class="small">© 2025 MCI Migration • All Rights Reserved</div>
     </div>
   </footer>
+
+  <script>
+    // Simple fade-up on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in') });
+    },{threshold:0.12});
+    document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
+
+    // Simple contact handler (demo)
+    function handleSubmit(){
+      const form = document.getElementById('contactForm');
+      const data = new FormData(form);
+      // For demo: show alert. Replace with real API / form backend.
+      alert('Thanks — we received your audit request. (Demo)');
+      form.reset();
+    }
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click',function(e){
+        const target = document.querySelector(this.getAttribute('href'));
+        if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth',block:'start'});}
+      })
+    });
+  </script>
 </body>
 </html>
